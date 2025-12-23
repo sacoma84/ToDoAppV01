@@ -1,0 +1,12 @@
+﻿USE [ToDoAppV01]
+GO
+
+-- ALTER TABLE dbo.ToDoLists DROP CONSTRAINT FK_ToDoLists_AspNetUsers_UserId;
+ALTER TABLE dbo.ToDoLists
+ALTER COLUMN UserId NVARCHAR(450) NOT NULL; -- oder NULL statt NOT NULL
+ALTER TABLE dbo.ToDoLists
+ADD CONSTRAINT FK_ToDoLists_AspNetUsers_UserId FOREIGN KEY (UserId)
+REFERENCES dbo.AspNetUsers (Id) ON DELETE CASCADE;
+
+
+GO
