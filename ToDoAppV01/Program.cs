@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using ToDoAppV01.Data;
-using ToDoAppV01.Data.Seedings;
 using ToDoAppV01.Models;
 
 namespace ToDoAppV01
@@ -26,8 +25,9 @@ namespace ToDoAppV01
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+            app.UseStaticFiles();
 
-            
+
 
             CreateRoles(app).Wait();
             CreateAdminUser(app).Wait();
