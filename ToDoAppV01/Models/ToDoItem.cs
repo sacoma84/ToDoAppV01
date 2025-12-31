@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ToDoAppV01.Models
 {
+    [Table("ToDoItem")]
     public class ToDoItem
     {
         public int Id { get; set; }
@@ -13,5 +15,8 @@ namespace ToDoAppV01.Models
         public TimeSpan RepetitiveInterval { get; set; } // wiederholender Intervall e.g., daily, weekly
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime ModifiedAt { get; set; } = DateTime.Now;
+
+        // Navigation back to parent
+        public ToDoList? ToDoList { get; set; }
     }
 }
