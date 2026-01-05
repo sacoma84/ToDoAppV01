@@ -71,7 +71,8 @@
 										data-bs-toggle="collapse"
 										data-bs-target="#collapse_@todoList.Id"
 										aria-expanded="false"
-										aria-controls="collapse_@todoList.Id">
+										aria-controls="collapse_@todoList.Id"
+										data-todoid="@todoList.Id">
 									<strong>@todoList.Id - @todoList.ListTitle</strong>
 								</button>
 
@@ -98,9 +99,7 @@
 												@foreach (var todoItem in todoList.Items)
 												{
 													<tr>
-
 														<td class="align-content-center align-items-center">
-
 															<input type="checkbox" id="@todoItem.Id" name="todoItemId" value="@todoItem.IsCompleted" class="form-check-input todo-checkbox" data-id="@todoItem.Id" @(todoItem.IsCompleted ? "checked" : "")>
 														</td>
 														<td>
@@ -293,7 +292,37 @@
 			});
 		});
 	});
+	@* ------------------------------------------------------------ *@
+	@* // Wenn Accordion geoeffnet wird → ID merken *@
+	document.querySelectorAll(".accordion-button").forEach(btn => {
+		btn.addEventListener("click", function () {
+			const todoId = this.dataset.todoid;
+			if (todoId) {
+				localStorage.setItem("openToDoListId", todoId);
+			}
+		});
+	});
 
+	@* // Nach Seitenreload → Accordion wieder oeffnen *@
+	document.addEventListener("DOMContentLoaded", function () {
+		const openId = localStorage.getItem("openToDoListId");
+		if (!openId) return;
+
+		const collapseEl = document.getElementById("collapse_" + openId);
+		const buttonEl = document.querySelector(
+			`[data-bs-target="#collapse_${openId}"]`
+		);
+
+		if (collapseEl && buttonEl) {
+			const bsCollapse = new bootstrap.Collapse(collapseEl, {
+				toggle: false
+			});
+			bsCollapse.show();
+
+			buttonEl.classList.remove("collapsed");
+			buttonEl.setAttribute("aria-expanded", "true");
+		}
+	});
 </script>
 <!-- #endregion: javascript -->
 
